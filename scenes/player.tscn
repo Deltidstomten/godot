@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://2am3nocq6xbu"]
+[gd_scene load_steps=7 format=3 uid="uid://2am3nocq6xbu"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_jt261"]
 [ext_resource type="Texture2D" uid="uid://bc3r0lyr5fl8i" path="res://sprites/stefan.png" id="2_i86h0"]
+[ext_resource type="Script" path="res://scripts/inventory_crafting.gd" id="3_c5qrg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yp0vf"]
 size = Vector2(12, 30)
@@ -10,6 +11,9 @@ size = Vector2(12, 30)
 properties/0/path = NodePath(".:position")
 properties/0/spawn = true
 properties/0/replication_mode = 1
+
+[sub_resource type="Theme" id="Theme_paqgi"]
+RichTextLabel/font_sizes/bold_font_size = 30
 
 [node name="player" type="CharacterBody2D"]
 collision_mask = 2
@@ -42,13 +46,6 @@ text = "name"
 horizontal_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="Inventory Label" type="Label" parent="."]
-texture_filter = 1
-offset_left = -288.0
-offset_top = -160.0
-offset_right = -192.0
-metadata/_edit_lock_ = true
-
 [node name="Load" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
@@ -57,4 +54,99 @@ autostart = true
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_swcfl")
 
+[node name="Control" type="Control" parent="."]
+visible = false
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = -256.0
+offset_top = -128.0
+offset_right = 256.0
+offset_bottom = 128.0
+script = ExtResource("3_c5qrg")
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 256.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Control"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 64.0
+offset_right = 416.0
+offset_bottom = 253.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ScrollContainer"]
+layout_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Craft_Plank" type="Button" parent="Control/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Planks"
+metadata/_edit_lock_ = true
+
+[node name="PlankLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer/Craft_Plank"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 120.0
+offset_bottom = 31.0
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="CraftStick" type="Button" parent="Control/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sticks"
+metadata/_edit_lock_ = true
+
+[node name="StickLabel" type="Label" parent="Control/ScrollContainer/VBoxContainer/CraftStick"]
+layout_mode = 0
+offset_left = 64.0
+offset_right = 120.0
+offset_bottom = 31.0
+vertical_alignment = 1
+metadata/_edit_lock_ = true
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="Control"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 192.0
+offset_bottom = 256.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/ScrollContainer2"]
+layout_mode = 2
+
+[node name="Inventory Label" type="Label" parent="Control/ScrollContainer2/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+text = "Stick: 54
+Wood: 95"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 192.0
+offset_bottom = 56.0
+theme = SubResource("Theme_paqgi")
+bbcode_enabled = true
+text = "[b]Inventory[/b]"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Control"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 8.0
+offset_right = 384.0
+offset_bottom = 56.0
+theme = SubResource("Theme_paqgi")
+bbcode_enabled = true
+text = "[b]Crafting[/b]"
+
 [connection signal="timeout" from="Load" to="." method="_on_load_timeout"]
+[connection signal="mouse_entered" from="Control/ScrollContainer/VBoxContainer/Craft_Plank" to="Control" method="_on_craft_plank_mouse_entered"]
+[connection signal="mouse_exited" from="Control/ScrollContainer/VBoxContainer/Craft_Plank" to="Control" method="_on_craft_plank_mouse_exited"]
+[connection signal="pressed" from="Control/ScrollContainer/VBoxContainer/Craft_Plank" to="Control" method="_on_craft_plank_pressed"]
+[connection signal="mouse_entered" from="Control/ScrollContainer/VBoxContainer/CraftStick" to="Control" method="_on_craft_stick_mouse_entered"]
+[connection signal="mouse_exited" from="Control/ScrollContainer/VBoxContainer/CraftStick" to="Control" method="_on_craft_stick_mouse_exited"]
+[connection signal="pressed" from="Control/ScrollContainer/VBoxContainer/CraftStick" to="Control" method="_on_craft_stick_pressed"]
