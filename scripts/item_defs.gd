@@ -1,6 +1,6 @@
 extends Node
 
-var recipe_requirment = {
+var recipe_requirement = {
 	"plank": {"log" : 1},
 	"stick": {"plank" : 2}
 } 

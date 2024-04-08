@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://2am3nocq6xbu"]
+[gd_scene load_steps=8 format=3 uid="uid://2am3nocq6xbu"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_jt261"]
 [ext_resource type="Texture2D" uid="uid://bc3r0lyr5fl8i" path="res://sprites/stefan.png" id="2_i86h0"]
 [ext_resource type="Script" path="res://scripts/inventory_crafting.gd" id="3_c5qrg"]
+[ext_resource type="Script" path="res://scripts/building_menu.gd" id="4_5e6dv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yp0vf"]
 size = Vector2(12, 30)
@@ -56,6 +57,7 @@ replication_config = SubResource("SceneReplicationConfig_swcfl")
 
 [node name="Control" type="Control" parent="."]
 visible = false
+z_index = 99
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 0
@@ -143,6 +145,55 @@ theme = SubResource("Theme_paqgi")
 bbcode_enabled = true
 text = "[b]Crafting[/b]"
 
+[node name="BuildingMenu" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -256.0
+offset_top = -128.0
+offset_right = -128.0
+offset_bottom = 128.0
+script = ExtResource("4_5e6dv")
+
+[node name="Panel" type="Panel" parent="BuildingMenu"]
+layout_mode = 0
+offset_right = 208.0
+offset_bottom = 256.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BuildingMenu/Panel"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 200.0
+offset_bottom = 248.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BuildingMenu/Panel/ScrollContainer"]
+layout_mode = 2
+
+[node name="BuildWoodWall" type="Button" parent="BuildingMenu/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Wood Wall"
+
+[node name="WoodWallLabel" type="Label" parent="BuildingMenu/Panel/ScrollContainer/VBoxContainer/BuildWoodWall"]
+layout_mode = 0
+offset_left = 120.0
+offset_right = 176.0
+offset_bottom = 31.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BuildWoodFloor" type="Button" parent="BuildingMenu/Panel/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Wood Floor"
+
+[node name="WoodFloorLabel" type="Label" parent="BuildingMenu/Panel/ScrollContainer/VBoxContainer/BuildWoodFloor"]
+layout_mode = 0
+offset_left = 120.0
+offset_right = 176.0
+offset_bottom = 31.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="timeout" from="Load" to="." method="_on_load_timeout"]
 [connection signal="mouse_entered" from="Control/ScrollContainer/VBoxContainer/Craft_Plank" to="Control" method="_on_craft_plank_mouse_entered"]
 [connection signal="mouse_exited" from="Control/ScrollContainer/VBoxContainer/Craft_Plank" to="Control" method="_on_craft_plank_mouse_exited"]
@@ -150,3 +201,5 @@ text = "[b]Crafting[/b]"
 [connection signal="mouse_entered" from="Control/ScrollContainer/VBoxContainer/CraftStick" to="Control" method="_on_craft_stick_mouse_entered"]
 [connection signal="mouse_exited" from="Control/ScrollContainer/VBoxContainer/CraftStick" to="Control" method="_on_craft_stick_mouse_exited"]
 [connection signal="pressed" from="Control/ScrollContainer/VBoxContainer/CraftStick" to="Control" method="_on_craft_stick_pressed"]
+[connection signal="pressed" from="BuildingMenu/Panel/ScrollContainer/VBoxContainer/BuildWoodWall" to="BuildingMenu" method="_on_build_wood_wall_pressed"]
+[connection signal="pressed" from="BuildingMenu/Panel/ScrollContainer/VBoxContainer/BuildWoodFloor" to="BuildingMenu" method="_on_build_wood_floor_pressed"]

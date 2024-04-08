@@ -10,17 +10,17 @@ extends Control
 
 func update_label(recipe1, label):
 	var recipe = recipe1
-	if len(item_defs.recipe_requirment[recipe]) > 1:
+	if len(item_defs.recipe_requirement[recipe]) > 1:
 		pass
 	else:
-		for item in item_defs.recipe_requirment[recipe]:
-			label.text += str(item_defs.recipe_requirment[recipe][item]) + " " + item
+		for item in item_defs.recipe_requirement[recipe]:
+			label.text += str(item_defs.recipe_requirement[recipe][item]) + " " + item
 		label.text += " = "
 		for item in item_defs.recipe_result[recipe]:
 			label.text += str(item_defs.recipe_result[recipe][item]) + " " + item
 
 func check_if_can_craft(recipe_name):
-	var recipe = item_defs.recipe_requirment[recipe_name]
+	var recipe = item_defs.recipe_requirement[recipe_name]
 	
 	for item in recipe:
 		if !player_stats.inventory.has(item):
